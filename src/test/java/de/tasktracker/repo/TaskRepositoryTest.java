@@ -2,11 +2,12 @@ package de.tasktracker.repo;
 
 import de.tasktracker.model.Task;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.List;
 
-public class
-TaskRepositoryTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TaskRepositoryTest {
 
     @Test
     public void testAddTaskSuccessfully() {
@@ -47,6 +48,4 @@ TaskRepositoryTest {
         assertTrue(tasks.stream().anyMatch(t -> t.getTitle().equals("Aufgabe 1")));
         assertTrue(tasks.stream().anyMatch(t -> t.getTitle().equals("Aufgabe 2")));
     }
-
-
 }
