@@ -4,7 +4,8 @@ import de.tasktracker.model.Task;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TaskRepositoryTest {
+public class
+TaskRepositoryTest {
 
     @Test
     public void testAddTaskSuccessfully() {
