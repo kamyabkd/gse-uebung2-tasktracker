@@ -4,7 +4,8 @@ import de.tasktracker.model.Task;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TaskRepositoryTest {
+public class
+TaskRepositoryTest {
 
     @Test
     public void testAddTaskSuccessfully() {
@@ -17,4 +18,16 @@ public class TaskRepositoryTest {
         assertEquals("Server reparieren", saved.getTitle());
         assertEquals("offen", saved.getStatus());
     }
+
+    @Test
+    public void testAddTaskWithEmptyTitleThrowsException() {
+        TaskRepository repo = new InMemoryTaskRepository();
+
+        Task newTask = new Task("", "Beschreibung egal");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            repo.add(newTask);
+        });
+    }
+
 }
