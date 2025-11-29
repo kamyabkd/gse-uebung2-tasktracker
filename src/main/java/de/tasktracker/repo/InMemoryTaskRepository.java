@@ -11,6 +11,11 @@ public class InMemoryTaskRepository implements TaskRepository {
 
     @Override
     public Task add(Task task) {
+
+        if (task.getTitle() == null || task.getTitle().trim().isEmpty()) {
+            throw new IllegalArgumentException("Title darf nicht leer sein");
+        }
+
         task.setId(nextId++);
         tasks.add(task);
         return task;
