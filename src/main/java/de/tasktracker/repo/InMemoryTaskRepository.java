@@ -25,4 +25,26 @@ public class InMemoryTaskRepository implements TaskRepository {
     public List<Task> getAllTasks() {
         return new ArrayList<>(tasks);
     }
+
+    @Override
+    public Task update(Task task) {
+        for (Task existing : tasks) {
+            if (existing.getId() == task.getId()) {
+                if (task.getTitle() != null && !task.getTitle().trim().isEmpty()) {
+                    existing.setTitle(task.getTitle());
+                }
+                if (task.getDescription() != null) {
+                    existing.setDescription(task.getDescription());
+                }
+                if (task.getStatus() != null) {
+                    existing.setStatus(task.getStatus());
+                }
+                return existing;
+            }
+        }
+
+        throw new IllegalArgumentException("Aufgabe nicht gefunden");
+    }
 }
+
+
