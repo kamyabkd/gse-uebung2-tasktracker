@@ -53,6 +53,26 @@ public class InMemoryTaskRepository implements TaskRepository {
 
         throw new IllegalArgumentException("Aufgabe nicht gefunden");
     }
+
+    @Override
+    public void deleteById(int id) {
+        // passende Aufgabe suchen
+        Task toDelete = null;
+        for (Task existing : tasks) {
+            if (existing.getId() == id) {
+                toDelete = existing;
+                break;
+            }
+        }
+
+        if (toDelete == null) {
+            throw new IllegalArgumentException("Aufgabe nicht gefunden");
+        }
+
+        tasks.remove(toDelete);
+    }
 }
+
+
 
 

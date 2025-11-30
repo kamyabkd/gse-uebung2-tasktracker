@@ -24,4 +24,12 @@ public interface TaskRepository {
      * @throws IllegalArgumentException wenn keine Aufgabe mit dieser ID existiert
      */
     Task update(Task task);
+
+    /**
+     * Löscht eine Aufgabe mit der gegebenen ID.
+     * @param id ID der zu löschenden Aufgabe
+     * @throws IllegalArgumentException wenn keine Aufgabe mit dieser ID existiert
+     */
+    void deleteById(int id);
+
 }
