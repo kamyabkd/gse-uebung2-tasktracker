@@ -32,4 +32,9 @@ public interface TaskRepository {
      */
     void deleteById(int id);
 
+    /**
+     * Gibt alle Aufgaben mit Status "offen" zurück.
+     */
+    List<Task> getOpenTasks();
+
 }

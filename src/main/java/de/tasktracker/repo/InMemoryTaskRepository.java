@@ -63,5 +63,18 @@ public class InMemoryTaskRepository implements TaskRepository {
             throw new IllegalArgumentException("Title darf nicht leer sein");
         }
     }
+
+    @Override
+    public List<Task> getOpenTasks() {
+        List<Task> result = new ArrayList<>();
+        for (Task t : tasks) {
+            if ("offen".equals(t.getStatus())) {
+                result.add(t);
+            }
+        }
+        return result;
+    }
 }
+
+
 
