@@ -9,18 +9,10 @@ public class InMemoryTaskRepository implements TaskRepository {
     private final List<Task> tasks = new ArrayList<>();
     private int nextId = 1;
 
-
-    private void validateTitle(Task task) {
-        if (task.getTitle() == null || task.getTitle().trim().isEmpty()) {
-            throw new IllegalArgumentException("Title darf nicht leer sein");
-        }
-    }
-
-
     @Override
     public Task add(Task task) {
 
-        validateTitle(task);
+        validateTitle(task.getTitle());
 
         task.setId(nextId++);
         tasks.add(task);
@@ -34,45 +26,42 @@ public class InMemoryTaskRepository implements TaskRepository {
 
     @Override
     public Task update(Task task) {
-        for (Task existing : tasks) {
-            if (existing.getId() == task.getId()) {
+        Task existing = findTaskByIdOrThrow(task.getId());
 
-                if (task.getTitle() != null) {
-                    validateTitle(task);
-                    existing.setTitle(task.getTitle());
-                }
-                if (task.getDescription() != null) {
-                    existing.setDescription(task.getDescription());
-                }
-                if (task.getStatus() != null) {
-                    existing.setStatus(task.getStatus());
-                }
-                return existing;
-            }
+        if (task.getTitle() != null) {
+            validateTitle(task.getTitle());
+            existing.setTitle(task.getTitle());
+        }
+        if (task.getDescription() != null) {
+            existing.setDescription(task.getDescription());
+        }
+        if (task.getStatus() != null) {
+            existing.setStatus(task.getStatus());
         }
 
-        throw new IllegalArgumentException("Aufgabe nicht gefunden");
+        return existing;
     }
 
     @Override
     public void deleteById(int id) {
-        // passende Aufgabe suchen
-        Task toDelete = null;
-        for (Task existing : tasks) {
-            if (existing.getId() == id) {
-                toDelete = existing;
-                break;
-            }
-        }
-
-        if (toDelete == null) {
-            throw new IllegalArgumentException("Aufgabe nicht gefunden");
-        }
-
+        Task toDelete = findTaskByIdOrThrow(id);
         tasks.remove(toDelete);
     }
+
+
+    private Task findTaskByIdOrThrow(int id) {
+        for (Task t : tasks) {
+            if (t.getId() == id) {
+                return t;
+            }
+        }
+        throw new IllegalArgumentException("Aufgabe nicht gefunden");
+    }
+
+    private void validateTitle(String title) {
+        if (title == null || title.trim().isEmpty()) {
+            throw new IllegalArgumentException("Title darf nicht leer sein");
+        }
+    }
 }
-
-
-
 
