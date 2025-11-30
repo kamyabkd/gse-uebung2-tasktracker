@@ -127,6 +127,49 @@ public class TaskRepositoryTest {
         });
     }
 
+    @Test
+    public void testGetOpenTasksReturnsOnlyOpenOnes() {
+        TaskRepository repo = new InMemoryTaskRepository();
+
+        Task t1 = new Task("Aufgabe 1", "eins");
+        Task t2 = new Task("Aufgabe 2", "zwei");
+        Task t3 = new Task("Aufgabe 3", "drei");
+
+        // t1, t2: offen (Standard)
+        repo.add(t1);
+        repo.add(t2);
+
+        // t3: erledigt
+        t3.setStatus("erledigt");
+        repo.add(t3);
+
+        List<Task> openTasks = repo.getOpenTasks();
+
+        assertEquals(2, openTasks.size());
+        assertTrue(openTasks.stream().allMatch(t -> t.getStatus().equals("offen")));
+    }
+
+    @Test
+    public void testGetOpenTasksReturnsEmptyListWhenNoOpenTasksExist() {
+        TaskRepository repo = new InMemoryTaskRepository();
+
+        Task t1 = new Task("Aufgabe 1", "eins");
+        Task t2 = new Task("Aufgabe 2", "zwei");
+
+        t1.setStatus("erledigt");
+        t2.setStatus("erledigt");
+
+        repo.add(t1);
+        repo.add(t2);
+
+        List<Task> openTasks = repo.getOpenTasks();
+
+        assertNotNull(openTasks);
+        assertTrue(openTasks.isEmpty());
+    }
+
+
+
 
 
 }
