@@ -91,4 +91,42 @@ public class TaskRepositoryTest {
         });
     }
 
+    @Test
+    public void testDeleteTaskSuccessfully() {
+        TaskRepository repo = new InMemoryTaskRepository();
+
+        // Erst zwei Aufgaben anlegen
+        Task t1 = new Task("Aufgabe 1", "eins");
+        Task t2 = new Task("Aufgabe 2", "zwei");
+
+        Task saved1 = repo.add(t1);
+        Task saved2 = repo.add(t2);
+
+        int idToDelete = saved1.getId();
+
+        // Vor dem Löschen: 2 Aufgaben
+        List<Task> before = repo.getAllTasks();
+        assertEquals(2, before.size());
+
+        // Löschen
+        repo.deleteById(idToDelete);
+
+        // Danach: nur noch 1 Aufgabe, und die gelöschte ist weg
+        List<Task> after = repo.getAllTasks();
+        assertEquals(1, after.size());
+        assertTrue(after.stream().noneMatch(t -> t.getId() == idToDelete));
+    }
+
+    @Test
+    public void testDeleteTaskWithInvalidIdThrowsException() {
+        TaskRepository repo = new InMemoryTaskRepository();
+
+        // keine Aufgabe mit ID 999 vorhanden
+        assertThrows(IllegalArgumentException.class, () -> {
+            repo.deleteById(999);
+        });
+    }
+
+
+
 }
