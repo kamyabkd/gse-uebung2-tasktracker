@@ -9,12 +9,18 @@ public class InMemoryTaskRepository implements TaskRepository {
     private final List<Task> tasks = new ArrayList<>();
     private int nextId = 1;
 
-    @Override
-    public Task add(Task task) {
 
+    private void validateTitle(Task task) {
         if (task.getTitle() == null || task.getTitle().trim().isEmpty()) {
             throw new IllegalArgumentException("Title darf nicht leer sein");
         }
+    }
+
+
+    @Override
+    public Task add(Task task) {
+
+        validateTitle(task);
 
         task.setId(nextId++);
         tasks.add(task);
@@ -30,7 +36,9 @@ public class InMemoryTaskRepository implements TaskRepository {
     public Task update(Task task) {
         for (Task existing : tasks) {
             if (existing.getId() == task.getId()) {
-                if (task.getTitle() != null && !task.getTitle().trim().isEmpty()) {
+
+                if (task.getTitle() != null) {
+                    validateTitle(task);
                     existing.setTitle(task.getTitle());
                 }
                 if (task.getDescription() != null) {
