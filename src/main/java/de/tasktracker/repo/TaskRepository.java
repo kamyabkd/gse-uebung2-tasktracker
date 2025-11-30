@@ -1,6 +1,7 @@
 package de.tasktracker.repo;
 
 import de.tasktracker.model.Task;
+import java.util.List;
 
 public interface TaskRepository {
 
@@ -10,4 +11,9 @@ public interface TaskRepository {
      * @return gespeicherte Aufgabe mit gesetzter ID
      */
     Task add(Task task);
+
+    /**
+     * Gibt alle gespeicherten Aufgaben zurück.
+     */
+    List<Task> getAllTasks();
 }

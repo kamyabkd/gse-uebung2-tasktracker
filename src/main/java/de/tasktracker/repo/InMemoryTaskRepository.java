@@ -20,4 +20,9 @@ public class InMemoryTaskRepository implements TaskRepository {
         tasks.add(task);
         return task;
     }
+
+    @Override
+    public List<Task> getAllTasks() {
+        return new ArrayList<>(tasks);
+    }
 }
