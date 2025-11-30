@@ -59,4 +59,36 @@ public class TaskRepositoryTest {
         assertTrue(tasks.isEmpty());
     }
 
+    @Test
+    public void testUpdateTaskSuccessfully() {
+        TaskRepository repo = new InMemoryTaskRepository();
+
+        Task original = new Task("Server reparieren", "Festplatte austauschen");
+        Task saved = repo.add(original);
+        int id = saved.getId();
+
+        Task updated = new Task("Server reparieren", "Netzteil ersetzen");
+        updated.setId(id);
+        updated.setStatus("erledigt");
+
+        Task result = repo.update(updated);
+
+        assertEquals(id, result.getId());
+        assertEquals("Server reparieren", result.getTitle());
+        assertEquals("Netzteil ersetzen", result.getDescription());
+        assertEquals("erledigt", result.getStatus());
+    }
+
+    @Test
+    public void testUpdateTaskWithInvalidIdThrowsException() {
+        TaskRepository repo = new InMemoryTaskRepository();
+
+        Task updated = new Task("Dummy", "egal");
+        updated.setId(999);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            repo.update(updated);
+        });
+    }
+
 }
