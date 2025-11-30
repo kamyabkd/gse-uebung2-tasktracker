@@ -48,4 +48,15 @@ public class TaskRepositoryTest {
         assertTrue(tasks.stream().anyMatch(t -> t.getTitle().equals("Aufgabe 1")));
         assertTrue(tasks.stream().anyMatch(t -> t.getTitle().equals("Aufgabe 2")));
     }
+
+    @Test
+    public void testGetAllTasksReturnsEmptyListWhenNoTasksExist() {
+        TaskRepository repo = new InMemoryTaskRepository();
+
+        List<Task> tasks = repo.getAllTasks();
+
+        assertNotNull(tasks);
+        assertTrue(tasks.isEmpty());
+    }
+
 }
