@@ -4,12 +4,10 @@
 -- USE TaskTrackerDB;
 -- GO
 
--- Falls Tabelle schon existiert, zuerst löschen
 IF OBJECT_ID('dbo.Tasks', 'U') IS NOT NULL
     DROP TABLE dbo.Tasks;
 GO
 
--- Tabelle für Aufgaben
 CREATE TABLE dbo.Tasks (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Title NVARCHAR(200) NOT NULL,
